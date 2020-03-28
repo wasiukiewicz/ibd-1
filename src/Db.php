@@ -34,17 +34,11 @@ class Db
 	 * @param array $params Tablica z parametrami zapytania
 	 * @return array|bool Tablica z danymi, false jeśl nie udało się wysłać zapytania
 	 */
-	public function pobierzWszystko($sql, $params = null)
+	public function pobierzWszystko($sql, $params = [])
 	{
 		$stmt = $this->pdo->prepare($sql);
-		
-		if (!empty($params) && is_array($params)) {
-			foreach ($params as $k => $v) {
-				$stmt->bindParam($k, $v, \PDO::PARAM_STR);
-			}
-		}
-		
-		return $stmt->execute() ? $stmt->fetchAll() : false;
+
+		return $stmt->execute($params) ? $stmt->fetchAll() : false;
 	}
 
 	/**
