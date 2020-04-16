@@ -55,6 +55,14 @@ $lista = $ksiazki->pobierzStrone($select, $zapytanie['parametry']);
                 <?= ($_GET['sortowanie'] ?? '') == 'k.cena DESC' ? 'selected' : '' ?>
             >cenie malejąco
             </option>
+            <option value="author.nazwisko ASC"
+                <?= ($_GET['sortowanie'] ?? '') == 'author.nazwisko ASC' ? 'selected' : '' ?>
+            >nazwisku autora rosnąco
+            </option>
+            <option value="author.nazwisko DESC"
+                <?= ($_GET['sortowanie'] ?? '') == 'author.nazwisko DESC' ? 'selected' : '' ?>
+            >nazwisku autora malejąco
+            </option>
         </select>
 
         <button class="btn btn-sm btn-primary" type="submit">Szukaj</button>

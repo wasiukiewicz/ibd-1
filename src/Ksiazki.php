@@ -46,7 +46,11 @@ class Ksiazki
 
         // dodawanie warunków do zapytanie
         if (!empty($params['fraza'])) {
-            $sql .= "AND k.tytul LIKE :fraza ";
+            $sql .= "AND ( k.tytul LIKE :fraza 
+                     OR k.opis LIKE :fraza
+                     OR author.imie LIKE :fraza
+                     OR author.nazwisko LIKE :fraza )
+            ";
             $parametry['fraza'] = "%$params[fraza]%";
         }
         if (!empty($params['id_kategorii'])) {
@@ -56,7 +60,7 @@ class Ksiazki
 
         // dodawanie sortowania
         if (!empty($params['sortowanie'])) {
-            $kolumny = ['k.tytul', 'k.cena'];
+            $kolumny = ['k.tytul', 'k.cena', 'author.nazwisko'];
             $kierunki = ['ASC', 'DESC'];
             [$kolumna, $kierunek] = explode(' ', $params['sortowanie']);
 

@@ -88,7 +88,51 @@ class Stronicowanie
                 );
             }
         }
+        $linki .= "</ul> </br> <ul class='pagination'>";
+
+        if($this->strona == $liczbaStron-1){
+            $linki .= "<li class='page-item inactive'><a class='page-link'>Następna</a></li>";
+        }
+        else {
+            $linki .= sprintf(
+                "<li class='page-item'><a href='%s?%s&strona=%d' class='page-link'>Następna</a></li>",
+                $plik,
+                $parametry,
+                $this->strona + 1
+            );
+        }
+
+        if($this->strona == 0){
+            $linki .= "<li class='page-item inactive'><a class='page-link'>Poprzednia</a></li>";
+        }
+        else {
+            $linki .= sprintf(
+                "<li class='page-item'><a href='%s?%s&strona=%d' class='page-link'>Poprzednia</a></li>",
+                $plik,
+                $parametry,
+                $this->strona - 1
+            );
+        }
+        
+        $linki .= sprintf(
+            "<li class='page-item'><a href='%s?%s&strona=%d' class='page-link'>Poczatek</a></li>",
+            $plik,
+            $parametry,
+            0
+        );
+        $linki .= sprintf(
+            "<li class='page-item'><a href='%s?%s&strona=%d' class='page-link'>Koniec</a></li>",
+            $plik,
+            $parametry,
+            $liczbaStron - 1
+        );
         $linki .= "</ul></nav>";
+        
+        $liczbaRekordowNaStronie = ($this->strona + 1) * $this->naStronie;
+        if($liczbaRekordowNaStronie > $rekordow){
+            $liczbaRekordowNaStronie = $rekordow;
+        }
+        $linki .= sprintf("%d z %d rekordów", $liczbaRekordowNaStronie, $rekordow);
 
         return $linki;
     }
