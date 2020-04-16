@@ -37,10 +37,10 @@ class Ksiazki
     public function pobierzZapytanie($params)
     {
         $parametry = [];
-        $sql = " SELECT book.*, author.imie, author.nazwisko, category.nazwa
-				 FROM ksiazki book 
-				 JOIN autorzy author ON author.id = book.id_autora
-				 JOIN kategorie category ON category.id = book.id_kategorii
+        $sql = " SELECT k.*, author.imie, author.nazwisko, category.nazwa
+				 FROM ksiazki k 
+				 JOIN autorzy author ON author.id = k.id_autora
+				 JOIN kategorie category ON category.id = k.id_kategorii
                  WHERE 1=1
 		 ";
 
