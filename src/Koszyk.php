@@ -21,12 +21,12 @@ class Koszyk
 	 *
 	 * @return array
 	 */
-	public function pobierzWszystkie()
+	public function pobierzWszystkie($idSesji)
 	{
 		$sql = "
 			SELECT ks.*, ko.liczba_sztuk, ko.id AS id_koszyka
 			FROM ksiazki ks JOIN koszyk ko ON ks.id = ko.id_ksiazki
-			WHERE ko.id_sesji = '" . session_id() . "'
+			WHERE ko.id_sesji = '$idSesji'
 			ORDER BY ko.data_dodania DESC";
 
 		return $this->db->pobierzWszystko($sql);
@@ -72,11 +72,22 @@ class Koszyk
 	public function zmienLiczbeSztuk($dane)
 	{
 		foreach($dane as $idKoszyka => $ilosc) {
-			if($ilosc <= 0)
+			if ($ilosc <= 0) {
 				$this->db->usun('koszyk', $idKoszyka);
-			else
+            } else {
 				$this->db->aktualizuj('koszyk', ['liczba_sztuk' => $ilosc], $idKoszyka);
+            }
 		}
 	}
 
+    /**
+     * Czyści koszyk.
+     *
+     * @param string $idSesji
+     * @return bool
+     */
+    public function wyczysc($idSesji)
+    {
+        return $this->db->wykonaj("DELETE FROM koszyk WHERE id_sesji = :id_sesji", ['id_sesji' => $idSesji]);
+    }
 }

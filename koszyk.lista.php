@@ -11,7 +11,7 @@ if(isset($_POST['zmien'])) {
 	header("Location: koszyk.lista.php");
 }
 
-$listaKsiazek = $koszyk->pobierzWszystkie();
+$listaKsiazek = $koszyk->pobierzWszystkie(session_id());
 
 include 'header.php';
 ?>
@@ -65,12 +65,17 @@ include 'header.php';
 					</tr>
 				<?php endforeach; ?>
 			</tbody>
-			<tfoot>
-				<tr>
-					<td colspan="5">&nbsp;</td>
-					<td colspan="3"><input type="submit" class="btn btn-primary btn-sm" name="zmien" value="Zmień liczbę sztuk" /></td>
-				</tr>
-			</tfoot>
+            <tfoot>
+            <tr>
+                <td colspan="5">&nbsp;</td>
+                <td colspan="3">
+                    <input type="submit" class="btn btn-secondary btn-sm" name="zmien" value="Zmień liczbę sztuk" />
+                    <?php if (!empty($_SESSION['id_uzytkownika'])): ?>
+                        <a href="zamowienie.php" class="btn btn-primary btn-sm">Złóż zamówienie</a>
+                    <?php endif; ?>
+                </td>
+            </tr>
+            </tfoot>
 		<?php else: ?>
 			<tr><td colspan="8" style="text-align: center">Brak produktów w koszyku.</td></tr>
 		<?php endif; ?>
