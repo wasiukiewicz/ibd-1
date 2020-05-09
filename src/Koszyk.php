@@ -79,4 +79,38 @@ class Koszyk
 		}
 	}
 
+	public function suma(){
+		$listaKsiazek = $this->pobierzWszystkie();
+		$sum = 0;
+		foreach($listaKsiazek as $ks){
+			$sum = $sum + ( $ks['cena']*$ks['liczba_sztuk'] );
+		}
+		return $sum;
+	}
+
+	/**
+	 * Podbija ilość ksiażek w koszyku.
+	 *
+	 */
+	public function zwiekszIloscKsiazekWKoszyku($idKsiazki){
+		$sql = "
+			UPDATE koszyk ko
+			SET ko.liczba_sztuk = ko.liczba_sztuk + 1
+			WHERE ko.id_sesji = '" . session_id() . "'
+			AND ko.id_ksiazki = '$idKsiazki'
+			";
+
+		$this->db->wywolajZapytanieSql($sql);
+	}
+
+	public function pobierzIloscKsiazekWKoszyku(){
+		$sql = "
+		SELECT sum(ko.liczba_sztuk) as ksiazekWKoszyku
+		FROM koszyk ko
+		WHERE ko.id_sesji = '" . session_id() . "'
+		";
+		$iloscWKoszyku =  $this->db->wezPierwszyRezultat($sql);
+		return $iloscWKoszyku['ksiazekWKoszyku'];
+	}
+
 }

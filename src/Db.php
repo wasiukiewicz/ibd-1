@@ -140,5 +140,18 @@ class Db
 
         $params['id'] = $id;
         return $stmt->execute($params);
-    }
+	}
+
+	public function wywolajZapytanieSql($sql){
+		$stmt = $this->pdo->prepare($sql);
+		return $stmt->execute();
+	}
+
+	public function wezPierwszyRezultat($sql){
+		$stmt = $this->pdo->prepare($sql);
+		$stmt -> execute();
+		$row = $stmt -> fetch();
+		return $row;
+	}
+	
 }

@@ -116,7 +116,7 @@ class Ksiazki
 				 JOIN kategorie category ON category.id = book.id_kategorii
 		 ";
 
-		return $this->db->pobierzWszystko($sql);
+		return $this->db->wywolajZapytanieSql($sql);
 	}
 
 

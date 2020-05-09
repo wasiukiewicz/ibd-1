@@ -1,6 +1,6 @@
 <?php
 require_once 'vendor/autoload.php';
-session_start();
+include 'header.php';
 
 use Ibd\Koszyk;
 
@@ -12,8 +12,9 @@ if(isset($_POST['zmien'])) {
 }
 
 $listaKsiazek = $koszyk->pobierzWszystkie();
+$sumaCeny = $koszyk->suma();
 
-include 'header.php';
+
 ?>
 
 <h2>Koszyk</h2>
@@ -55,7 +56,7 @@ include 'header.php';
 						</td>
 						<td><?= $ks['cena'] * $ks['liczba_sztuk'] ?></td>
 						<td style="white-space: nowrap">
-							<a href="koszyk.usun.php" title="usuń z koszyka">
+							<a href="koszyk.usun.php" data-id="<?=$ks['id_koszyka'] ?>"  class="aUsunZKoszyka" title="usuń z koszyka">
                                 <i class="fas fa-trash"></i>
 							</a>
 							<a href="ksiazki.szczegoly.php?id=<?=$ks['id']?>" title="szczegóły">
@@ -65,16 +66,19 @@ include 'header.php';
 					</tr>
 				<?php endforeach; ?>
 			</tbody>
+			
 			<tfoot>
 				<tr>
 					<td colspan="5">&nbsp;</td>
 					<td colspan="3"><input type="submit" class="btn btn-primary btn-sm" name="zmien" value="Zmień liczbę sztuk" /></td>
 				</tr>
 			</tfoot>
+			
 		<?php else: ?>
 			<tr><td colspan="8" style="text-align: center">Brak produktów w koszyku.</td></tr>
 		<?php endif; ?>
 	</table>
+	<div id="suma">Suma: <?=$sumaCeny ?> </div>
 </form>
 
 <?php include 'footer.php'; ?>
