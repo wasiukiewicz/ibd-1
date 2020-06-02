@@ -67,16 +67,6 @@ $listaKsiazek = $koszyk->pobierzWszystkie(session_id());
 					</tr>
 				<?php endforeach; ?>
 			</tbody>
-<<<<<<< HEAD
-			
-			<tfoot>
-				<tr>
-					<td colspan="5">&nbsp;</td>
-					<td colspan="3"><input type="submit" class="btn btn-primary btn-sm" name="zmien" value="Zmień liczbę sztuk" /></td>
-				</tr>
-			</tfoot>
-			
-=======
             <tfoot>
             <tr>
                 <td colspan="4">&nbsp;</td>
@@ -88,7 +78,6 @@ $listaKsiazek = $koszyk->pobierzWszystkie(session_id());
                 </td>
             </tr>
             </tfoot>
->>>>>>> upstream/master
 		<?php else: ?>
 			<tr><td colspan="8" style="text-align: center">Brak produktów w koszyku.</td></tr>
 		<?php endif; ?>

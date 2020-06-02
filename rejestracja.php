@@ -8,8 +8,21 @@ use Valitron\Validator;
 $uzytkownicy = new Uzytkownicy();
 $v = new Validator($_POST);
 
+Valitron\Validator::addRule('fieldExists', function($field, $value, array $params, array $fields) {
+    return false;
+}, ' istnieje w bazie danych.');
+
 if (isset($_POST['zapisz'])) {
     $v->rule('required', ['imie', 'nazwisko', 'adres', 'email', 'login', 'haslo']);
+    $v->rule('email', 'email');
+    $responseMail = $uzytkownicy->sprawdzCzyIstniejeMail($_POST);
+    if($responseMail!='OK'){
+        $v->rule('fieldExists',['email']);
+    }
+    $responseLogin = $uzytkownicy->sprawdzCzyIstniejeLogin($_POST);
+    if($responseLogin!='OK'){
+        $v->rule('fieldExists',['login']);
+    }
 
     if ($v->validate()) {
         // brak błędów, można dodać użytkownika
@@ -35,7 +48,7 @@ include 'header.php';
     </div>
 <?php endif; ?>
 
-<form method="post" action=""">
+<form method="post" action="">
     <div class="form-group">
         <label for="imie">Imię</label>
         <input type="text" id="imie" name="imie" class="form-control <?= $v->errors('imie') ? 'is-invalid' : '' ?>" value="<?= $_POST['imie'] ?? '' ?>"/>

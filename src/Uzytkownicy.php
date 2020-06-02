@@ -32,9 +32,43 @@ class Uzytkownicy
             'telefon' => $dane['telefon'],
             'email' => $dane['email'],
             'login' => $dane['login'],
-            'haslo' => password_hash($dane['haslo'], PASSWORD_DEFAULT),
+            'haslo' => password_hash($dane['haslo'], PASSWORD_BCRYPT),
             'grupa' => $grupa
         ]);
+    }
+
+    /**
+     * Sprawdza w bazie czy taki mail juz nie istnieje
+     * 
+     * @param array $dane
+     */
+    public function sprawdzCzyIstniejeMail($dane){
+
+        $emailUzytkownika = $this->db->pobierzWszystko(
+            "SELECT * FROM uzytkownicy WHERE email = :email ", ['email' => $dane['email']]
+        );
+        if($emailUzytkownika!=null){
+            return 'NOT_OK';
+        }
+
+        return 'OK';
+    }
+
+        /**
+     * Sprawdza w bazie czy taki login juz nie istnieje
+     * 
+     * @param array $dane
+     */
+    public function sprawdzCzyIstniejeLogin($dane){
+
+        $loginUzytkownika = $this->db->pobierzWszystko(
+            "SELECT * FROM uzytkownicy WHERE login = :login ", ['login' => $dane['login']]
+        );
+        if($loginUzytkownika!=null){
+            return 'WRONG_LOGIN';
+        }
+
+        return 'OK';
     }
 
     /**

@@ -1,5 +1,4 @@
 <?php
-session_start();
 ini_set('display_errors', 1);
 error_reporting(E_ALL | E_STRICT);
 
@@ -51,6 +50,9 @@ $koszykHtml = "<span class='badge badge-dark' id='wKoszyku'>$liczbaKsiazekWKoszy
                 <?= Menu::generujOpcje('index.php', 'Strona główna') ?>
                 <?= Menu::generujOpcje('ksiazki.lista.php', 'Książki') ?>
                 <?= Menu::generujOpcje('koszyk.lista.php', "Koszyk $koszykHtml") ?>
+                <?php if (!empty($_SESSION['id_uzytkownika'])): ?>
+                    <?= Menu::generujOpcje('zamowienia.lista.php', 'Historia Zamówień') ?>
+                <?php endif; ?>
             </ul>
         </div>
     </nav>
