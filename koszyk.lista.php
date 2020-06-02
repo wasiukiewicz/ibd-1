@@ -11,9 +11,10 @@ if(isset($_POST['zmien'])) {
 	header("Location: koszyk.lista.php");
 }
 
-$listaKsiazek = $koszyk->pobierzWszystkie();
-$sumaCeny = $koszyk->suma();
+//$listaKsiazek = $koszyk->pobierzWszystkie();
+$sumaCeny = $koszyk->suma(session_id());
 
+$listaKsiazek = $koszyk->pobierzWszystkie(session_id());
 
 ?>
 
@@ -66,6 +67,7 @@ $sumaCeny = $koszyk->suma();
 					</tr>
 				<?php endforeach; ?>
 			</tbody>
+<<<<<<< HEAD
 			
 			<tfoot>
 				<tr>
@@ -74,6 +76,19 @@ $sumaCeny = $koszyk->suma();
 				</tr>
 			</tfoot>
 			
+=======
+            <tfoot>
+            <tr>
+                <td colspan="4">&nbsp;</td>
+                <td colspan="4" class="text-right">
+                    <input type="submit" class="btn btn-secondary btn-sm" name="zmien" value="Zmień liczbę sztuk" />
+                    <?php if (!empty($_SESSION['id_uzytkownika'])): ?>
+                        <a href="zamowienie.php" class="btn btn-primary btn-sm">Złóż zamówienie</a>
+                    <?php endif; ?>
+                </td>
+            </tr>
+            </tfoot>
+>>>>>>> upstream/master
 		<?php else: ?>
 			<tr><td colspan="8" style="text-align: center">Brak produktów w koszyku.</td></tr>
 		<?php endif; ?>

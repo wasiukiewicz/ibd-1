@@ -154,4 +154,18 @@ class Db
 		return $row;
 	}
 	
+
+    /**
+     * Wykonuje podane zapytanie SQL z parametrami.
+     *
+     * @param       $sql
+     * @param array $params
+     * @return bool
+     */
+    public function wykonaj($sql, $params = [])
+    {
+        $stmt = $this->pdo->prepare($sql);
+
+        return $stmt->execute($params);
+    }
 }

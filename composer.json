@@ -1,5 +1,8 @@
 {
-  "require": {},
+  "require": {
+    "vlucas/valitron": "^1.4",
+    "ext-gd": "*"
+  },
   "autoload": {
     "psr-4": {
       "Ibd\\": "./src/"

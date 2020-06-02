@@ -8,6 +8,6 @@ $koszyk = new Ibd\Koszyk();
 
 if(isset($_POST['id_koszyka'])) {
     $koszyk->zmienLiczbeSztuk([$_POST['id_koszyka'] => 0]);
-    $sumaCeny = $koszyk->suma();
+    $sumaCeny = $koszyk->suma(session_id());
     echo 'ok';
 }
