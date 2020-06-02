@@ -48,4 +48,24 @@ class Zamowienia
         }
     }
 
+    /**
+     * Pobiera wszystkie zamówienia.
+     *
+     * @return array
+     */
+    public function pobierzWszystkie()
+    {
+        $sql = "
+			SELECT z.*, u.login, s.nazwa AS status,
+			ROUND(SUM(sz.cena*sz.liczba_sztuk), 2) AS suma,
+			COUNT(sz.id) AS liczba_produktow,
+			SUM(sz.liczba_sztuk) AS liczba_sztuk
+			FROM zamowienia z JOIN uzytkownicy u ON z.id_uzytkownika = u.id
+			JOIN zamowienia_statusy s ON z.id_statusu = s.id
+			JOIN zamowienia_szczegoly sz ON z.id = sz.id_zamowienia
+			GROUP BY z.id
+	    ";
+
+        return $this->db->pobierzWszystko($sql);
+    }
 }

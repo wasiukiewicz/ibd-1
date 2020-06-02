@@ -39,6 +39,14 @@ $(function() {
 		return false;
 	});
 	$(".aUsunUzytkownika").click(usunRekord);
+
+    // książki
+    $("#fDodajKsiazke").hide();
+    $("#aDodajKsiazke").click(function () {
+        $("#fDodajKsiazke").toggle();
+        return false;
+    });
+    $(".aUsunKsiazke").click(usunRekord);
 	
 	// pokaż spinner w czasie wykonywania żądań AJAX
 	$('#ajaxLoading').hide();
