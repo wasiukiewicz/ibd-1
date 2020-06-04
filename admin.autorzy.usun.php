@@ -10,6 +10,12 @@ use Ibd\Autorzy;
 
 if(isset($_POST)) {
 	$autorzy = new Autorzy();
-	if($autorzy->usun($_GET['id']))
-		echo 'ok';
+	if(!($autorzy->czyMaKsiazki($_GET['id']))){
+		if($autorzy->usun($_GET['id']))
+			echo 'ok';
+	}
+	else {
+		echo 'Nie można usunąć, autor posiada powiązane ksiązki';
+	}
+	
 }

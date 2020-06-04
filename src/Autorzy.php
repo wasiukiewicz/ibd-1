@@ -92,4 +92,73 @@ class Autorzy
 		return $this->db->aktualizuj('autorzy', $update, $id);
 	}
 
+
+	/**
+     * Pobiera stronę z danymi autorów.
+     *
+     * @param string $select
+     * @param array $params
+     * @return array
+     */
+    public function pobierzStrone($select, $params)
+    {
+        return $this->db->pobierzWszystko($select, $params);
+	}
+	
+	/**
+     * Pobiera zapytanie SELECT oraz jego parametry;
+     *
+     * @param $params
+     * @return array
+     */
+    public function pobierzZapytanie($params)
+    {
+        $parametry = [];
+        $sql = " SELECT author.*, 
+				 CASE WHEN ks.id IS NOT NULL
+				 THEN count(author.id)
+				 ELSE '0'
+				 END AS ilosc
+				 FROM autorzy author
+				 LEFT JOIN ksiazki ks ON ks.id_autora = author.id
+                 WHERE 1=1
+		 ";
+
+        // dodawanie warunków do zapytanie
+        if (!empty($params['fraza'])) {
+            $sql .= "AND ( author.imie LIKE :fraza
+                     OR author.nazwisko LIKE :fraza )
+            ";
+            $parametry['fraza'] = "%$params[fraza]%";
+        }
+
+		$sql .= " group by author.id ";
+
+        // dodawanie sortowania
+        if (!empty($params['sortowanie'])) {
+            $kolumny = ['author.nazwisko'];
+            $kierunki = ['ASC', 'DESC'];
+            [$kolumna, $kierunek] = explode(' ', $params['sortowanie']);
+
+            if (in_array($kolumna, $kolumny) && in_array($kierunek, $kierunki)) {
+                $sql .= " ORDER BY " . $params['sortowanie'];
+            }
+        }
+		
+        return ['sql' => $sql, 'parametry' => $parametry];
+	}
+	
+	public function czyMaKsiazki($authorId){
+		$sql = " SELECT author.*
+				 FROM autorzy author
+				 JOIN ksiazki ks ON ks.id_autora = author.id
+				 WHERE author.id = '$authorId'
+		 ";
+		 $wynikZapytania = $this->db->pobierzWszystko($sql);
+		 if($wynikZapytania!=null){
+			 return true;
+		 }
+		 return false;
+	}
+
 }
